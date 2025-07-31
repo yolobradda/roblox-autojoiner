@@ -37,3 +37,4 @@ https://www.youtube.com/results?search_query=how+to+get+discord+token
 ## ⭐ Project support
 
 - If you found this script useful, please give it a star ⭐ on the repository. This motivates me to develop it further and create new projects.
+- free forever / ФРИ НАВСЕГДА
