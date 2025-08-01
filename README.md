@@ -53,7 +53,7 @@ https://www.python.org/downloads/
 - Вставьте свой `DISCORD_TOKEN`:
 https://www.youtube.com/results?search_query=how+to+get+discord+token
 
-5. Перейдите в папку `data`, найдите файл `joiner.lua` и скопируйте его в папку `AutoExec` вашего исполнителя.
+5. Перейдите в папку `data`, найдите файл `joiner.lua` и скопируйте его в папку `AutoExec` вашего екзекьютора.
 
 6. Запустите `start.bat`.
 
