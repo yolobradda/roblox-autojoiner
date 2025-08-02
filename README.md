@@ -4,7 +4,7 @@
 
 Software for automatic connection to servers in Roblox from logs in Chilli Hub (Steal A Brainrot place). Allows you to filter by the amount of "earnings per second" at the brainrot, by the number of players on the server, allows you to ignore "unknown" brainrots and automatically connect to the server.
 
-![SCREENSHOT](data/screenshot.png)
+![SCREENSHOT](data/new_screenshot.png)
 
 ## ⚙️ Возможности
 - Фильтрация доходов - не подключается к серверам, если доход брейнрота в секунду ниже чем указано в кфг.
