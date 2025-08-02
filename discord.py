@@ -2,13 +2,14 @@ import asyncio
 import websockets
 import websockets.exceptions
 import json
-from src.logger.logger import setup_logger
 
-from config import DISCORD_WS_URL, DISCORD_TOKEN, MONEY_THRESHOLD
-from src.roblox import broadcast
+from src.logger.logger import setup_logger
+from config import (DISCORD_WS_URL, DISCORD_TOKEN, MONEY_THRESHOLD,
+                    IGNORE_UNKNOWN, PLAYER_TRESHOLD, BYPASS_10M)
+from src.roblox import server
 from src.utils import check_channel, extract_server_info
+
 logger = setup_logger()
-enabled = False
 
 async def identify(ws):
     identify_payload = {
@@ -26,55 +27,57 @@ async def identify(ws):
     await ws.send(json.dumps(identify_payload))
     logger.info("Sent client identification")
 
-
-async def heartbeat(ws, interval, last_sequence):
-    await asyncio.sleep(interval)
-    #await ws.send(json.dumps({"op": "2", "d": "null", "s": last_sequence}))
-    #logger.info("Отправил heartbeat")
-    # delete
-    # не нужная функция прилетает `received 4001 (private use) Unknown opcode.; then sent 4001 (private use) Unknown opcode`
-
-
 async def message_check(event):
-    global enabled
-
     channel_id = event['d']['channel_id']
     result, category = check_channel(channel_id)
     if result:
-        parsed = extract_server_info(event)
-        if not parsed: return
+        try:
+            parsed = extract_server_info(event)
+            if not parsed: return
 
-        if parsed['money'] >= MONEY_THRESHOLD:
-            if not enabled:
-                logger.info("Caught the first message, starting my work") # на самом деле безполезная дичь
-                enabled = True
+            if parsed['money'] < MONEY_THRESHOLD:
+                # logger.warning(f"Skipped brainrot {parsed['money']} M/s < {MONEY_THRESHOLD} M/s")
+                return
 
-            logger.info(f"+ New message in category {category}: {parsed['money']} m/sec / {parsed['name']}")
-            await broadcast(parsed['script'])
+            if parsed['name'] == "Unknown" and IGNORE_UNKNOWN:
+                logger.warning("Skipped unknown brainrot")
+                return
 
+            if int(parsed['players']) >= PLAYER_TRESHOLD:
+                logger.warning(f"Skipped server {parsed['players']} >= {PLAYER_TRESHOLD} players")
+                return
+
+            logger.info(f"Sent {parsed['name']} in category {category}: {parsed['money']} M/s")
+            if parsed['money'] >= 10.0:
+                if not BYPASS_10M:
+                    logger.warning("Skip 10m+ server because bypass turned off")
+                    return
+
+                await server.broadcast(parsed['job_id'])
+            else:
+                await server.broadcast(parsed['script'])
+        except Exception as e:
+            logger.error(f"Failed to check message: {e}")
 
 async def message_listener(ws):
-    last_sequence = None
     while True:
         event = json.loads(await ws.recv())
         #logger.info(f"Получил ивент: {str(event)[:2000]}")
         op_code = event.get("op", None)
 
         if op_code == 10: # Hello
-            interval = event["d"]["heartbeat_interval"] / 1000
-            asyncio.create_task(heartbeat(ws, interval, last_sequence))
+            pass # пока не нужно
 
         elif op_code == 0: # Dispatch
-            last_sequence = event.get("s", None)
+            #last_sequence = event.get("s", None)
             event_type = event.get("t")
 
-            if event_type == "MESSAGE_CREATE":
+            if event_type == "MESSAGE_CREATE" and not server.paused:
                 await message_check(event)
 
         elif op_code == 9: # Invalid Session
             logger.warning("The session has ended, creating a new one..")
             await identify(ws)
-
 
 
 async def listener():
@@ -85,8 +88,8 @@ async def listener():
                 await message_listener(ws)
 
         except websockets.exceptions.ConnectionClosed as e:
-            logger.error(f" - WebSocket closed with error: {e}. Trying to reconnect...")
-            await asyncio.sleep(5)
+            logger.error(f" - WebSocket closed with error: {e}. Trying to reconnect... (if not mistake: check your discord token)")
+            await asyncio.sleep(3)
             continue
 
 # https://github.com/notasnek/roblox-autojoiner

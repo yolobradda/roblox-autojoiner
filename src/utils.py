@@ -19,7 +19,7 @@ def parse_money(value: str) -> float:
 
 
 def extract_server_info(event: dict):
-    result = {"name": None, "money": None, "script": None}
+    result = {"name": None, "money": None, "script": None, "job_id": None, "players": None}
 
     try:
         embeds = event["d"].get("embeds", [])
@@ -39,6 +39,14 @@ def extract_server_info(event: dict):
 
             elif name.startswith("📜 Join Script (PC)"):
                 result["script"] = value.strip("`")
+
+            elif name.startswith("Job ID (PC)"):
+                result["job_id"] = value.strip("`")
+
+            elif name.startswith("👥 Players"):
+                players_str = value.strip("*")
+                current, _ = players_str.split("/")
+                result["players"] = current
 
     except Exception as e:
         #print(f"Error parsing message: {e}")
