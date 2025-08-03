@@ -15,7 +15,7 @@ Software for automatic connection to servers in Roblox from logs in Chilli Hub (
 - Игнорирует "Unknown" брейнротов если такая опция включена в кфг.
 
 ## 📥 Установка
-1. Установите Python 3.12 или выше (с галочкой добавить в path): [клик](https://www.python.org/downloads/)
+1. Установите Python 3.12 или выше (с галочкой добавить в path): [клик](https://www.python.org/downloads/release/python-3120/)
 2. Загрузите или клонируйте репозиторий.
 3. Запустите `setup.bat` - он автоматически установит все библиотеки.
 4. Дождитесь завершения установки и настройте файл config.py (открой его через блокнот):
@@ -32,7 +32,7 @@ Software for automatic connection to servers in Roblox from logs in Chilli Hub (
 - Ignores "Unknown" brainrots if this option is enabled in the cfg.
 
 ## 📥 Installation
-1. Install Python 3.12 or higher (with a tick add to path): [click](https://www.python.org/downloads/)
+1. Install Python 3.12 or higher (with a tick add to path): [click](https://www.python.org/downloads/release/python-3120/)
 2. Download or clone the repository.
 3. Run `setup.bat` - it will automatically install all libraries.
 4. Wait for the installation to complete and configure the config.py file (open it with notepad):
@@ -44,3 +44,4 @@ Software for automatic connection to servers in Roblox from logs in Chilli Hub (
 - If you found this script useful, please give it a star ⭐ on the repository. This motivates me to develop it further and create new projects.
 - Если этот скрипт оказался вам полезным, пожалуйста, поставьте мне звездочку ⭐ в репозитории. Это мотивирует меня на его дальнейшее развитие и создание новых проектов.
 - FREE FOREVER / БЕСПЛАТНО НАВСЕГДА
+- Discord: https://discord.gg/fQSP3VFks9
