@@ -7,7 +7,7 @@ from src.logger.logger import setup_logger
 from config import (DISCORD_WS_URL, DISCORD_TOKEN, MONEY_THRESHOLD,
                     IGNORE_UNKNOWN, PLAYER_TRESHOLD, BYPASS_10M)
 from src.roblox import server
-from src.utils import check_channel, extract_server_info
+from src.utils import check_channel, extract_server_info, set_console_title
 
 logger = setup_logger()
 
@@ -35,8 +35,7 @@ async def message_check(event):
             parsed = extract_server_info(event)
             if not parsed: return
 
-            if parsed['money'] < MONEY_THRESHOLD:
-                # logger.warning(f"Skipped brainrot {parsed['money']} M/s < {MONEY_THRESHOLD} M/s")
+            if parsed['money'] < MONEY_THRESHOLD[0] or parsed['money'] > MONEY_THRESHOLD[1]:
                 return
 
             if parsed['name'] == "Unknown" and IGNORE_UNKNOWN:
@@ -81,6 +80,7 @@ async def message_listener(ws):
 
 
 async def listener():
+    set_console_title(f"AutoJoiner | Status: Enabled")
     while True:
         try:
             async with websockets.connect(DISCORD_WS_URL, max_size=None) as ws:

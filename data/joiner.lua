@@ -79,17 +79,35 @@
     end
 
     local function bypass10M(jobId)
-        local targetGui = findTargetGui()
-        for _ = 1, 3 do
-            local textBox = setJobIDText(targetGui, jobId)
-            wait(0.003)
-            for _, conn in ipairs(getconnections(clickJoinButton(targetGui).MouseButton1Click)) do
-                conn:Fire()
-                prints("Join server clicked (10m+ bypass)")
+        local success, err = pcall(function()
+            for _ = 1, 2 do
+                local targetGui = findTargetGui()
+                local textBox = setJobIDText(targetGui, jobId)
+
+                wait(0.002)
+                for _, conn in ipairs(getconnections(clickJoinButton(targetGui).MouseButton1Click)) do
+                    conn:Fire()
+                    prints("Join server clicked (10m+ bypass)")
+                end
             end
+        end)
+        if not success then
+            prints("10m+ bypass failed: " .. tostring(err))
         end
     end
 
+
+    local function justJoin(script)
+        local func, err = loadstring(script)
+        if func then
+            local ok, result = pcall(func)
+            if not ok then
+                prints("Error while executing script: " .. result)
+            end
+        else
+            prints("Some unexcepted error: " .. err)
+        end
+    end
 
 
     local function connect()
@@ -107,15 +125,7 @@
                         bypass10M(msg)
                     else
                         prints("Running the script: " .. msg)
-                        local func, err = loadstring(msg)
-                            if func then
-                            local ok, result = pcall(func)
-                            if not ok then
-                                prints("Error while executing script: " .. result)
-                            end
-                        else
-                            prints("Some unexcepted error: " .. err)
-                        end
+                        justJoin(msg)
                     end
                 end)
 
