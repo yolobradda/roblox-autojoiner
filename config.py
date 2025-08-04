@@ -8,7 +8,7 @@ DISCORD_TOKEN = "discord token"
 # гайд/guide: https://www.youtube.com/results?search_query=how+to+get+discord+token
 
 
-MONEY_THRESHOLD = (11.0, 999.0) # in millions from, to / в миллионах от, до (example: 1.5 = 1.5m, 0.5 = 500k)
+MONEY_THRESHOLD = (10.0, 999.0) # in millions from, to / в миллионах от, до (example: 1.5 = 1.5m, 0.5 = 500k)
 # if the brainrot earnings per second are less than the first number or higher than the second number, it will be skipped
 # если заработок в секунду у брейнрота меньше первого числа или выше второго числа, то он будет скипнут
 
@@ -18,7 +18,7 @@ PLAYER_TRESHOLD = 8 # число / number
 # если на сервере больше PLAYER_TRESHOLD игроков - не будет пытаться зайти на сервер
 
 
-IGNORE_UNKNOWN = False # True / False
+IGNORE_UNKNOWN = True # True / False
 # ignore "Unknown" brainrots
 # игнорировать "Unknown" брейнротов
 
@@ -35,10 +35,10 @@ WEBSOCKET_PORT = 51948 # websocket port for data transfer in roblox
 DISCORD_WS_URL = "wss://gateway.discord.gg/?v=10&encoding-json" # discord ws
 
 CHILLI_HUB_CHANNELS_ID = {
-    "under_500k": ["1394958052536619059"], # under 500k channels
-    "500k_1m": ["1394958062166474823", "1400302142702751864"], # 500k - 1M channels
-    "1m-10m": ["1394958060828627064", "1400302392431349770"], # 1m - 10m channels
-    "10m_plus": ["1394958063341015081"] # 10m+ channels
+    "under_500k": ["1401774723246854204", "1401774863974268959"], # under 500k channels
+    "500k_1m": ["1401774956404277378", "1401775012083404931"], # 500k - 1M channels
+    "1m-10m": ["1401775061706346536", "1401775125765947442"], # 1m - 10m channels
+    "10m_plus": ["1401775181025775738"] # 10m+ channels
 }
 
 
