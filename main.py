@@ -14,7 +14,7 @@ if __name__ == "__main__":
     print("Roblox AutoJoiner for Chilli's Notify by notasnek")
     print("Github: https://github.com/notasnek/roblox-autojoiner")
     print("Join our discord: https://discord.gg/fQSP3VFks9")
-    print("Version: 1.0.1")
+    print("Version: 1.0.2")
     print("Starting in 2 seconds...")
     print()
 

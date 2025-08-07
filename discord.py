@@ -6,7 +6,8 @@ import random
 
 from src.logger.logger import setup_logger
 from config import (DISCORD_WS_URL, DISCORD_TOKEN, MONEY_THRESHOLD,
-                    IGNORE_UNKNOWN, PLAYER_TRESHOLD, BYPASS_10M, FILTER_BY_NAME)
+                    IGNORE_UNKNOWN, PLAYER_TRESHOLD, BYPASS_10M,
+                    FILTER_BY_NAME, IGNORE_LIST)
 from src.roblox import server
 from src.utils import check_channel, extract_server_info, set_console_title
 
@@ -49,8 +50,12 @@ async def message_check(event):
 
             if FILTER_BY_NAME[0]:
                 if parsed['name'] not in FILTER_BY_NAME[1]:
-                    logger.warning(f"Skip server brainrot {parsed['name']} not in {FILTER_BY_NAME[1]} list")
+                    logger.warning(f"Skip brainrot {parsed['name']} not in filter by name list")
                     return
+
+            if parsed['name'] in IGNORE_LIST:
+                logger.warning(f"Skip brainrot {parsed['name']} in ignore list")
+                return
 
 
             if parsed['money'] >= 10.0:

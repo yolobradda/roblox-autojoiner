@@ -11,6 +11,7 @@ DISCORD_TOKEN = "discord token"
 MONEY_THRESHOLD = (10.0, 999.0) # in millions from, to / в миллионах от, до (example: 1.5 = 1.5m, 0.5 = 500k)
 # if the brainrot earnings per second are less than the first number or higher than the second number, it will be skipped
 # если заработок в секунду у брейнрота меньше первого числа или выше второго числа, то он будет скипнут
+# Example / Пример: (3.0, 10.0) - от 3м до 10м / from 3m to 10m
 
 
 PLAYER_TRESHOLD = 8 # число / number
@@ -21,6 +22,13 @@ PLAYER_TRESHOLD = 8 # число / number
 IGNORE_UNKNOWN = True # True / False
 # ignore "Unknown" brainrots
 # игнорировать "Unknown" брейнротов
+
+
+IGNORE_LIST = [""] # ignore list, список игнора
+# Добавьте имена брейнротов в данный список которых надо скипать
+# Add the names of the brainrots to this list of those that need to be skipped
+# Example 1 / Пример 1: ["Graipuss Medussi"]
+# Example 2 / Пример 2: ["Graipuss Medussi", "La Grande Combinasion"]
 
 
 FILTER_BY_NAME = False, ["Graipuss Medussi", "La Grande Combinasion"] # filter by name, фильтр по имени

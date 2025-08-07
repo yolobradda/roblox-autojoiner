@@ -13,6 +13,8 @@ Software for automatic connection to servers in Roblox from logs in Chilli Hub (
 - Полностью автоматический запуск с помощью скрипта Lua.
 - Байпасит вход на сервера с 10м+ брейнротами.
 - Игнорирует "Unknown" брейнротов если такая опция включена в кфг.
+- Возможность входить только по заданным брейнротам
+- Возможность скипа заданных брейнротов
 
 ## 📥 Установка
 1. Установите Python 3.12 или выше (с галочкой добавить в path): [клик](https://www.python.org/downloads/release/python-3120/)
@@ -24,12 +26,14 @@ Software for automatic connection to servers in Roblox from logs in Chilli Hub (
 7. F2 - приостановить/возобновить работу скрипта.
 
 ## ⚙️ Features
-- Income filtering - does not connect to servers if the brainrot income per second is lower than specified in the cfg.
-- Filtering by number of players - does not connect to servers that have more players than specified in the cfg.
-- uses a Discord token to listen to messages from Chilli Notify via WebSocket.
+- Income filtering - does not connect to servers if the brainrot income per second is lower than specified in the kfg.
+- Filtering by number of players - does not connect to servers with more players than specified in the kfg.
+- Uses a Discord token to listen to messages from Chilli Notify via WebSocket.
 - Fully automatic launch using a Lua script.
-- Bypasses join to servers with 10m+ brainrots.
-- Ignores "Unknown" brainrots if this option is enabled in the cfg.
+- Bypasses login to servers with 10m+ brainrates.
+- Ignores “Unknown” brainrates if this option is enabled in the kfg.
+- Ability to log in only with specified brainrates
+- Ability to skip specified brainrates
 
 ## 📥 Installation
 1. Install Python 3.12 or higher (with a tick add to path): [click](https://www.python.org/downloads/release/python-3120/)
