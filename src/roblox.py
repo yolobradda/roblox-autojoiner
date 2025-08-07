@@ -59,8 +59,8 @@ class RobloxWebsocket:
 
         status_text = "Pause" if new_paused else "Enabled"
         logger.info(
-            "> The script is paused"
-            if new_paused else "> The script continued to run."
+            "> The script is paused (F2 button)"
+            if new_paused else "> The script continued to run. (F2 button)"
         )
         set_console_title(f"AutoJoiner | Status: {status_text}")
 

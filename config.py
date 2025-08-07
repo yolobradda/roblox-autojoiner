@@ -23,12 +23,24 @@ IGNORE_UNKNOWN = True # True / False
 # игнорировать "Unknown" брейнротов
 
 
+FILTER_BY_NAME = False, ["Graipuss Medussi", "La Grande Combinasion"] # filter by name, фильтр по имени
+# Что-бы он работал, поменяйте False на True, а также в список добавьте\уберите\измените название необходимых брейнротов
+# To make it work, change False to True, and add/remove/change the names of the necessary brainroots to the list
+# Если включено: будет заходить на сервера где название брейнрота соответствует списку
+# If enabled: will connect to servers where the brainrot name matches the list
+# Example/пример: True, ["Graipuss Medussi"]
+
+
 BYPASS_10M = True # True / False
 # bypass jobid for 10m+ servers, FOR WORKING BYPASS YOU MUST HAVE INJECTED CHILLI HUB
 # байпасить вход для 10м+ серваков, ДЛЯ РАБОЧЕГО БУПАССА У ВАС ДОЛЖЕН БЫТЬ ЗАИНЖЕКЧЕН ЧИЛЛИ ХАБ
 
 
 
+
+
+
+# DON'T TOUCH ! / НЕ ТРОГАЙ !
 # don't touch it if you don't understand what it is / не трогай если не понимаешь что это
 WEBSOCKET_PORT = 51948 # websocket port for data transfer in roblox
 

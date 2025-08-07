@@ -1,4 +1,5 @@
 (function()
+    repeat wait() until game:IsLoaded()
     local WebSocketURL = "ws://127.0.0.1:51948" -- поменяй порт если ты его поменял в питоне
 
     local function prints(str)
@@ -79,21 +80,17 @@
     end
 
     local function bypass10M(jobId)
-        local success, err = pcall(function()
-            for _ = 1, 2 do
-                local targetGui = findTargetGui()
-                local textBox = setJobIDText(targetGui, jobId)
+        local targetGui = findTargetGui()
+        local textBox = setJobIDText(targetGui, jobId)
+        local button = clickJoinButton(targetGui)
 
-                wait(0.002)
-                for _, conn in ipairs(getconnections(clickJoinButton(targetGui).MouseButton1Click)) do
-                    conn:Fire()
-                    prints("Join server clicked (10m+ bypass)")
-                end
+        task.defer(function()
+            task.wait(0.05) -- поменяй под свое значение (если убрать = будут нули)
+            for _, conn in ipairs(getconnections(button.MouseButton1Click)) do
+                conn:Fire()
+                prints("Join server clicked (10m+ bypass)")
             end
         end)
-        if not success then
-            prints("10m+ bypass failed: " .. tostring(err))
-        end
     end
 
 

@@ -11,12 +11,15 @@ from src.roblox import roblox_main
 
 
 if __name__ == "__main__":
-    print("Roblox AutoJoiner for Chilli's Notify")
+    print("Roblox AutoJoiner for Chilli's Notify by notasnek")
     print("Github: https://github.com/notasnek/roblox-autojoiner")
     print("Join our discord: https://discord.gg/fQSP3VFks9")
-    print("Version: 1.0.0")
+    print("Version: 1.0.1")
     print("Starting in 2 seconds...")
     print()
+
+    # убирая мое авторство вы нарушаете лицензию (читай LICENSE.md)
+    # By removing my authorship, you are violating the license (read LICENSE.md)
 
     time.sleep(2)
 

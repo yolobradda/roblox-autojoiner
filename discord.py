@@ -2,10 +2,11 @@ import asyncio
 import websockets
 import websockets.exceptions
 import json
+import random
 
 from src.logger.logger import setup_logger
 from config import (DISCORD_WS_URL, DISCORD_TOKEN, MONEY_THRESHOLD,
-                    IGNORE_UNKNOWN, PLAYER_TRESHOLD, BYPASS_10M)
+                    IGNORE_UNKNOWN, PLAYER_TRESHOLD, BYPASS_10M, FILTER_BY_NAME)
 from src.roblox import server
 from src.utils import check_channel, extract_server_info, set_console_title
 
@@ -46,7 +47,12 @@ async def message_check(event):
                 logger.warning(f"Skipped server {parsed['players']} >= {PLAYER_TRESHOLD} players")
                 return
 
-            logger.info(f"Sent {parsed['name']} in category {category}: {parsed['money']} M/s")
+            if FILTER_BY_NAME[0]:
+                if parsed['name'] not in FILTER_BY_NAME[1]:
+                    logger.warning(f"Skip server brainrot {parsed['name']} not in {FILTER_BY_NAME[1]} list")
+                    return
+
+
             if parsed['money'] >= 10.0:
                 if not BYPASS_10M:
                     logger.warning("Skip 10m+ server because bypass turned off")
@@ -55,10 +61,15 @@ async def message_check(event):
                 await server.broadcast(parsed['job_id'])
             else:
                 await server.broadcast(parsed['script'])
+            logger.info(f"Sent {parsed['name']} in category {category}: {parsed['money']} M/s")
+
+            if random.randint(0, 5) == 1:
+                logger.info(f"You are using FREE AutoJoiner from notasnek: github.com/notasnek/roblox-autojoiner")
         except Exception as e:
-            logger.error(f"Failed to check message: {e}")
+            logger.debug(f"Failed to check message: {e}")
 
 async def message_listener(ws):
+    logger.info("Listening new messages...")
     while True:
         event = json.loads(await ws.recv())
         #logger.info(f"Получил ивент: {str(event)[:2000]}")
