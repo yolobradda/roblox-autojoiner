@@ -1,5 +1,8 @@
 from config import CHILLI_HUB_CHANNELS_ID
-import ctypes
+import platform
+
+if platform.system() == "Windows":
+    import ctypes
 
 def check_channel(channel_id: str):
     for tier, ids in CHILLI_HUB_CHANNELS_ID.items():
@@ -55,6 +58,8 @@ def extract_server_info(event: dict):
     return result
 
 def set_console_title(title: str):
-    ctypes.windll.kernel32.SetConsoleTitleW(title)
+    if platform.system() == "Windows":
+        ctypes.windll.kernel32.SetConsoleTitleW(title)
+    return
 
 # https://github.com/notasnek/roblox-autojoiner
