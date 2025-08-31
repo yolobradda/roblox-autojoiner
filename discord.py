@@ -7,7 +7,7 @@ import random
 from src.logger.logger import setup_logger
 from config import (DISCORD_WS_URL, DISCORD_TOKEN, MONEY_THRESHOLD,
                     IGNORE_UNKNOWN, PLAYER_TRESHOLD, BYPASS_10M,
-                    FILTER_BY_NAME, IGNORE_LIST)
+                    FILTER_BY_NAME, IGNORE_LIST, READ_CHANNELS)
 from src.roblox import server
 from src.utils import check_channel, extract_server_info, set_console_title
 
@@ -29,6 +29,19 @@ async def identify(ws):
     await ws.send(json.dumps(identify_payload))
     logger.info("Sent client identification")
 
+    payload = {
+        "op": 37,
+        "d": {
+            "subscriptions": {
+                "1385491616013221990": {"typing": True, "threads": True, "activities": True, "members": [], "member_updates": False, "channels": {}, "thread_member_lists": []},
+                "1401550662335991908": {"typing": True, "threads": True, "activities": True, "members": [], "member_updates": False, "channels": {}, "thread_member_lists": []}
+            }
+        }
+    }
+    await ws.send(json.dumps(payload))
+    logger.info("Sent client subscriptions")
+    logger.info("You must be on the chilli hub discord server and notasnek github (see repo)")
+
 async def message_check(event):
     channel_id = event['d']['channel_id']
     result, category = check_channel(channel_id)
@@ -38,6 +51,10 @@ async def message_check(event):
             if not parsed: return
 
             if parsed['money'] < MONEY_THRESHOLD[0] or parsed['money'] > MONEY_THRESHOLD[1]:
+                return
+
+            if category not in READ_CHANNELS:
+                # logger.warning(f"Skipped brainrot channel {category} not in READ_CHANNELS")
                 return
 
             if parsed['name'] == "Unknown" and IGNORE_UNKNOWN:
@@ -68,7 +85,7 @@ async def message_check(event):
                 await server.broadcast(parsed['script'])
             logger.info(f"Sent {parsed['name']} in category {category}: {parsed['money']} M/s")
 
-            if random.randint(0, 5) == 1:
+            if random.randint(0, 6) == 1:
                 logger.info(f"You are using FREE AutoJoiner from notasnek: github.com/notasnek/roblox-autojoiner")
         except Exception as e:
             logger.debug(f"Failed to check message: {e}")
@@ -88,7 +105,7 @@ async def message_listener(ws):
             event_type = event.get("t")
 
             if event_type == "MESSAGE_CREATE" and not server.paused:
-                await message_check(event)
+                await message_check(event) # nоtasnek
 
         elif op_code == 9: # Invalid Session
             logger.warning("The session has ended, creating a new one..")

@@ -8,88 +8,49 @@
 
 
     local function findTargetGui()
-        for _, gui in ipairs(game:GetService("CoreGui"):GetChildren()) do
-            if not gui:IsA("ScreenGui") then continue end
-
-            for _, descendant in ipairs(gui:GetDescendants()) do
-                if descendant:IsA("TextLabel") and descendant.Text == "Job-ID Input" then
-                    return descendant:FindFirstAncestorOfClass("ScreenGui")
+        for _, gui in ipairs(game:GetService('CoreGui'):GetChildren()) do
+            if gui:IsA('ScreenGui') then
+                if gui:FindFirstChild('Job-ID Input', true) then
+                    return gui
                 end
             end
         end
+        return nil
     end
 
     local function setJobIDText(targetGui, text)
-        for _, btn in ipairs(targetGui:GetDescendants()) do
-            if btn:IsA("TextButton") then
-                local frames = {}
+        local jobFrame = targetGui:FindFirstChild('Job-ID Input', true)
+        if not jobFrame then return nil end
 
-                for _, child in ipairs(btn:GetChildren()) do
-                    if child:IsA("Frame") then
-                        table.insert(frames, child)
-                    end
-                end
-                if #frames < 2 then continue end
+        local inputFrame = jobFrame:FindFirstChild('InputFrame', true)
+        if not inputFrame then return nil end
 
-                local foundLabel = false
-                for _, descendant in ipairs(frames[1]:GetDescendants()) do
-                    if descendant:IsA("TextLabel") and descendant.Text == "Job-ID Input" then
-                        foundLabel = true
-                        break
-                    end
-                end
-                if not foundLabel then continue end
-
-                for _, subFrame in ipairs(frames[2]:GetChildren()) do
-                    if subFrame:IsA("Frame") then
-                        for _, obj in ipairs(subFrame:GetDescendants()) do
-                            if obj:IsA("TextBox") then
-                                obj.Text = text
-                                prints("Textbox updated: " .. text .. " (10m+ bypass)")
-                                return obj
-                            end
-                        end
-                    end
-                end
-            end
+        local inputBox = inputFrame:FindFirstChild('InputBox', true)
+        if inputBox and inputBox:IsA('TextBox') then
+            inputBox.Text = text
+            prints('Textbox updated: ' .. text .. ' (10m+ bypass)')
+            return inputBox
         end
         return nil
     end
 
     local function clickJoinButton(targetGui)
-        local function findButton(base)
-            for _, btn in ipairs(base:GetDescendants()) do
-                if btn:IsA("TextButton") then
-                    for _, content in ipairs(btn:GetDescendants()) do
-                        if content:IsA("TextLabel") and content.Text == "Join Job-ID" then
-                            return btn
-                        end
-                    end
-                end
-            end
-        end
-
-        local current = targetGui
-        for _ = 1, 4 do
-            local button = findButton(current)
-            if button then return button end
-            current = current.Parent
-            if not current then break end
-        end
-        return nil
+        local joinFrame = targetGui:FindFirstChild('Join Job-ID', true)
+        if not joinFrame then return nil end
+        return joinFrame:FindFirstChildWhichIsA('TextButton', true)
     end
 
     local function bypass10M(jobId)
         local targetGui = findTargetGui()
-        local textBox = setJobIDText(targetGui, jobId)
+        setJobIDText(targetGui, jobId)
         local button = clickJoinButton(targetGui)
 
         task.defer(function()
             task.wait(0.05) -- поменяй под свое значение (если убрать = будут нули)
             for _, conn in ipairs(getconnections(button.MouseButton1Click)) do
                 conn:Fire()
-                prints("Join server clicked (10m+ bypass)")
             end
+            prints('Join server clicked (10m+ bypass)')
         end)
     end
 

@@ -3,7 +3,7 @@
 
 
 
-DISCORD_TOKEN = "discord token"
+DISCORD_TOKEN = "your discord token"
 # discord token / дискорд токен
 # гайд/guide: https://www.youtube.com/results?search_query=how+to+get+discord+token
 
@@ -44,6 +44,12 @@ BYPASS_10M = True # True / False
 # байпасить вход для 10м+ серваков, ДЛЯ РАБОЧЕГО БУПАССА У ВАС ДОЛЖЕН БЫТЬ ЗАИНЖЕКЧЕН ЧИЛЛИ ХАБ
 
 
+READ_CHANNELS = ['notasnek_1m-10m', "10m_plus"] # channels / каналы
+# список каналов логов какие читать (айдишники снизу)
+# list of log channels to read (IDs at the bottom)
+# Don't change it if you don't know what you're doing.
+# не меняйте если не понимаете что делаете
+
 
 
 
@@ -52,13 +58,16 @@ BYPASS_10M = True # True / False
 # don't touch it if you don't understand what it is / не трогай если не понимаешь что это
 WEBSOCKET_PORT = 51948 # websocket port for data transfer in roblox
 
-DISCORD_WS_URL = "wss://gateway.discord.gg/?v=10&encoding-json" # discord ws
+DISCORD_WS_URL = "wss://gateway.discord.gg/?encoding=json&v=9" # discord ws
 
 CHILLI_HUB_CHANNELS_ID = {
     "under_500k": ["1401774723246854204", "1401774863974268959"], # under 500k channels
     "500k_1m": ["1401774956404277378", "1401775012083404931"], # 500k - 1M channels
     "1m-10m": ["1401775061706346536", "1401775125765947442"], # 1m - 10m channels
-    "10m_plus": ["1401775181025775738"] # 10m+ channels
+    "10m_plus": ["1401775181025775738"], # 10m+ channels
+
+    "notasnek_1m-10m": ["1404759535293431849"], # 1m - 10m notasnek discord channel
+    "notasnek_10m_plus": ["1404759584450678865"] # 10m+ notasnek discord channel
 }
 
 
