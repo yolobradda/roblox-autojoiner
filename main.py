@@ -22,7 +22,7 @@ if __name__ == "__main__":
     print("You can also donate to me on Discord. Thank you!")
     print()
 
-    print("Version: 1.1.0")
+    print("Version: 1.1.1")
     print("Starting in 2 seconds...")
     print()
 

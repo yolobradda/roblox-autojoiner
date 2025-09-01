@@ -8,36 +8,45 @@
 
 
     local function findTargetGui()
-        for _, gui in ipairs(game:GetService('CoreGui'):GetChildren()) do
-            if gui:IsA('ScreenGui') then
-                if gui:FindFirstChild('Job-ID Input', true) then
-                    return gui
-                end
+        for _, gui in ipairs(game:GetService('CoreGui'):GetDescendants()) do
+            if gui:IsA('ScreenGui') and gui.Name == 'Orion' then
+                return gui
             end
         end
         return nil
     end
 
     local function setJobIDText(targetGui, text)
-        local jobFrame = targetGui:FindFirstChild('Job-ID Input', true)
-        if not jobFrame then return nil end
+        for _, descendant in ipairs(targetGui:GetDescendants()) do
+            if descendant:IsA('TextLabel') and descendant.Text == 'Job-ID Input' then
+                local parentFrame = descendant.Parent
+                if not parentFrame:IsA('Frame') then continue end
 
-        local inputFrame = jobFrame:FindFirstChild('InputFrame', true)
-        if not inputFrame then return nil end
-
-        local inputBox = inputFrame:FindFirstChild('InputBox', true)
-        if inputBox and inputBox:IsA('TextBox') then
-            inputBox.Text = text
-            prints('Textbox updated: ' .. text .. ' (10m+ bypass)')
-            return inputBox
+                for _, frameChild in ipairs(parentFrame:GetChildren()) do
+                    if frameChild:IsA('Frame') then
+                        local textBox = frameChild:FindFirstChildOfClass('TextBox')
+                        if textBox then
+                            textBox.Text = text
+                            textBox:CaptureFocus()
+                            textBox:ReleaseFocus()
+                            prints('Textbox updated: ' .. text .. ' (10m+ bypass)')
+                            return textBox
+                        end
+                    end
+                end
+            end
         end
         return nil
     end
 
     local function clickJoinButton(targetGui)
-        local joinFrame = targetGui:FindFirstChild('Join Job-ID', true)
-        if not joinFrame then return nil end
-        return joinFrame:FindFirstChildWhichIsA('TextButton', true)
+        for _, descendant in ipairs(targetGui:GetDescendants()) do
+            if descendant:IsA('TextLabel') and descendant.Text == 'Join Job-ID' then
+                local parentFrame = descendant.Parent
+                return parentFrame:FindFirstChildOfClass('TextButton')
+            end
+        end
+        return nil
     end
 
     local function bypass10M(jobId)
@@ -45,9 +54,10 @@
         setJobIDText(targetGui, jobId)
         local button = clickJoinButton(targetGui)
 
+        local upConnections = getconnections(button.MouseButton1Up)
         task.defer(function()
-            task.wait(0.05) -- поменяй под свое значение (если убрать = будут нули)
-            for _, conn in ipairs(getconnections(button.MouseButton1Click)) do
+            task.wait(0.005)
+            for _, conn in ipairs(upConnections) do
                 conn:Fire()
             end
             prints('Join server clicked (10m+ bypass)')
